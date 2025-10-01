@@ -1,11 +1,11 @@
 'use client';
 
-import { config, projectId } from '@/config/reown';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { createAppKit } from '@reown/appkit';
-import { base } from '@reown/appkit/networks';
-import type { ReactNode } from 'react';
-import { cookieToInitialState, WagmiProvider, type Config } from 'wagmi';
+import {config, projectId} from '@/config/reown';
+import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
+import {createAppKit} from '@reown/appkit';
+import {base} from '@reown/appkit/networks';
+import type {ReactNode} from 'react';
+import {cookieToInitialState, WagmiProvider, type Config} from 'wagmi';
 
 const queryClient = new QueryClient();
 
@@ -16,7 +16,7 @@ if (!projectId) {
 const metadata = {
   name: 'ChainGuardian',
   description: 'The ultimate crypto adventure where your wallet powers your journey.',
-  url: 'https://chainguardian.app', 
+  url: 'https://chainguardian.app',
   icons: ['https://avatars.githubusercontent.com/u/179229932'],
 };
 
