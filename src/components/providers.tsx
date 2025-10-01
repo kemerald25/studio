@@ -26,7 +26,7 @@ export function AppProviders({
             const metadata = {
                 name: 'ChainGuardian',
                 description: 'The ultimate crypto adventure where your wallet powers your journey.',
-                url: 'https://6000-firebase-studio-1759324113885.cluster-fbfjltn375c6wqxlhoehbz44sk.cloudworkstations.dev',
+                url: 'https://chain-guardian-one.vercel.app/',
                 icons: ['https://avatars.githubusercontent.com/u/179229932'],
             };
 
