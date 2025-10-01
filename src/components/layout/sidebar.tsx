@@ -28,7 +28,7 @@ import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { shortenAddress } from '@/lib/utils';
 import { useAccount } from 'wagmi';
-import { ConnectButton } from '@rainbow-me/rainbowkit';
+import { useWeb3Modal } from '@reown/appkit/react';
 
 const navItems = [
   { href: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
@@ -45,6 +45,7 @@ export default function AppSidebar() {
   const pathname = usePathname();
   const avatar = PlaceHolderImages.find((img) => img.id === 'avatar1');
   const { address, isConnected } = useAccount();
+  const { open } = useWeb3Modal();
 
   return (
     <Sidebar>
@@ -87,16 +88,7 @@ export default function AppSidebar() {
           </div>
         ) : (
           <div className="text-center text-xs text-slate-400 p-2">
-             <ConnectButton.Custom>
-              {({ openConnectModal, mounted }) => {
-                if (!mounted) {
-                  return null;
-                }
-                return (
-                  <Button variant="link" onClick={openConnectModal} className="p-0 h-auto text-secondary">Connect your wallet</Button>
-                );
-              }}
-            </ConnectButton.Custom>
+             <Button variant="link" onClick={() => open()} className="p-0 h-auto text-secondary">Connect your wallet</Button>
             {' '}to begin your adventure.
           </div>
         )}

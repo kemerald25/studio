@@ -3,6 +3,7 @@ import { Inter, Space_Grotesk, Source_Code_Pro } from 'next/font/google';
 import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
 import { AppProviders } from '@/components/providers';
+import { headers } from 'next/headers';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 const spaceGrotesk = Space_Grotesk({ subsets: ['latin'], variable: '--font-space-grotesk' });
@@ -18,6 +19,9 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const headersObj = headers();
+  const cookies = headersObj.get('cookie');
+
   return (
     <html lang="en" className="dark">
       <head>
@@ -31,7 +35,7 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${spaceGrotesk.variable} ${sourceCodePro.variable} font-body bg-base-bg text-text-primary antialiased`}
       >
-        <AppProviders>
+        <AppProviders cookies={cookies}>
           {children}
           <Toaster />
         </AppProviders>
