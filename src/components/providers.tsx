@@ -42,7 +42,7 @@ export function AppProviders({
 
   useEffect(() => {
     if (!initialized) {
-      const wagmiAdapter = new WagmiAdapter({ config });
+      const wagmiAdapter = new WagmiAdapter(config);
 
       createAppKit({
         adapters: [wagmiAdapter],
