@@ -7,17 +7,4 @@ if (!projectId) {
   throw new Error('Project ID is not defined');
 }
 
-// Reown AppKit/Wagmi expects the RPC URL to be defined in the transports
-// section of the wagmi config, not directly on the chain object.
-const baseWithRpc = {
-  ...base,
-  rpcUrls: {
-    ...base.rpcUrls,
-    default: {
-      http: [`https://mainnet.base.org`],
-    },
-  },
-};
-
-
-export const networks = [baseWithRpc];
+export const networks = [base];
