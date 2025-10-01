@@ -34,7 +34,7 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${spaceGrotesk.variable} ${sourceCodePro.variable} font-body bg-base-bg text-text-primary antialiased`}
       >
-        <AppProviders cookie={cookie}>
+        <AppProviders>
           {children}
           <Toaster />
         </AppProviders>

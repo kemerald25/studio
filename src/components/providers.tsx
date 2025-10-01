@@ -5,7 +5,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { createAppKit } from '@reown/appkit';
 import { base } from '@reown/appkit/networks';
 import type { ReactNode } from 'react';
-import { WagmiProvider, cookieToInitialState, type State } from 'wagmi';
+import { WagmiProvider, type State } from 'wagmi';
 
 const queryClient = new QueryClient();
 
@@ -13,10 +13,11 @@ if (!projectId) {
   throw new Error('Project ID is not defined');
 }
 
+// Set up metadata
 const metadata = {
   name: 'ChainGuardian',
   description: 'The ultimate crypto adventure where your wallet powers your journey.',
-  url: 'https://chainguardian.app',
+  url: typeof window !== 'undefined' ? window.location.origin : 'https://chainguardian.app',
   icons: ['https://avatars.githubusercontent.com/u/179229932'],
 };
 
@@ -39,12 +40,11 @@ createAppKit({
 
 export function AppProviders({
   children,
-  cookie,
+  initialState,
 }: {
   children: ReactNode;
-  cookie: string | null | undefined;
+  initialState?: State;
 }) {
-  const initialState = cookieToInitialState(config, cookie);
   return (
     <WagmiProvider config={config} initialState={initialState}>
       <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
