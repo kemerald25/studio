@@ -30,16 +30,8 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-  webpack: (config, {isServer}) => {
+  webpack: (config) => {
     config.externals.push("pino-pretty", "lokijs", "encoding");
-    if (!isServer) {
-      config.resolve.fallback = {
-        ...config.resolve.fallback,
-        dns: false,
-        net: false,
-        tls: false
-      };
-    }
     return config;
   },
 };

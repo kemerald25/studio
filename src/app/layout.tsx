@@ -4,7 +4,6 @@ import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
 import { AppProviders } from '@/components/providers';
 import { headers } from 'next/headers';
-import { unstable_serialize } from 'wagmi/ssr';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 const spaceGrotesk = Space_Grotesk({ subsets: ['latin'], variable: '--font-space-grotesk' });
@@ -20,9 +19,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const initialState = unstable_serialize({
-    cookie: headers().get('cookie'),
-  });
+  const cookie = headers().get('cookie');
 
   return (
     <html lang="en" className="dark">
@@ -37,7 +34,7 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${spaceGrotesk.variable} ${sourceCodePro.variable} font-body bg-base-bg text-text-primary antialiased`}
       >
-        <AppProviders initialState={initialState}>
+        <AppProviders cookie={cookie}>
           {children}
           <Toaster />
         </AppProviders>
