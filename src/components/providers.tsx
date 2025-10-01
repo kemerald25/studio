@@ -3,9 +3,10 @@
 import { projectId, networks } from '@/config/reown';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { createAppKit } from '@reown/appkit';
-import { type ReactNode, useEffect, useState } from 'react';
-import { WagmiProvider, createConfig, cookieStorage, createStorage, http } from 'wagmi';
+import { type ReactNode, useMemo } from 'react';
+import { WagmiProvider, type Config } from 'wagmi';
 import { WagmiAdapter } from '@reown/appkit-adapter-wagmi';
+import type { AppKitNetwork } from '@reown/appkit/networks';
 
 const queryClient = new QueryClient();
 
@@ -20,57 +21,50 @@ const metadata = {
   icons: ['https://avatars.githubusercontent.com/u/179229932'],
 };
 
-// Create wagmi config
-const config = createConfig({
-  chains: networks,
-  transports: networks.reduce((acc, chain) => {
-    acc[chain.id] = http();
-    return acc;
-  }, {} as Record<number, ReturnType<typeof http>>),
-  storage: createStorage({
-    storage: cookieStorage,
-  }),
-  ssr: true,
-});
-
-
 export function AppProviders({
   children,
 }: {
   children: ReactNode;
 }) {
-  const [initialized, setInitialized] = useState(false);
+  // Create wagmiAdapter and appKit only once using useMemo
+  const wagmiAdapter = useMemo(() => {
+    const adapter = new WagmiAdapter({
+      networks,
+      projectId,
+      ssr: true,
+    });
 
-  useEffect(() => {
-    if (!initialized) {
-      const wagmiAdapter = new WagmiAdapter(config);
+    // Get CAIP networks from the adapter
+    const caipNetworks = adapter.networks as [AppKitNetwork, ...AppKitNetwork[]];
 
-      createAppKit({
-        adapters: [wagmiAdapter],
-        projectId,
-        networks,
-        defaultNetwork: networks[0],
-        metadata: metadata,
-        enableEIP6963: true,
-        features: {
-          analytics: true,
-          email: true,
-          socials: ['google', 'x', 'discord', 'github', 'apple'],
-        },
-        allWallets: 'SHOW',
-        themeMode: 'dark',
-        themeVariables: {
-          '--w3m-accent': 'hsl(var(--primary))',
-          '--w3m-border-radius-master': 'var(--radius)',
-        },
-      });
-      setInitialized(true);
-    }
-  }, [initialized]);
+    createAppKit({
+      adapters: [adapter],
+      projectId,
+      networks: caipNetworks,
+      defaultNetwork: caipNetworks[0],
+      metadata: metadata,
+      enableEIP6963: true,
+      features: {
+        analytics: true,
+        email: true,
+        socials: ['google', 'x', 'discord', 'github', 'apple'],
+      },
+      allWallets: 'SHOW',
+      themeMode: 'dark',
+      themeVariables: {
+        '--w3m-accent': 'hsl(var(--primary))',
+        '--w3m-border-radius-master': 'var(--radius)',
+      },
+    });
+
+    return adapter;
+  }, []);
 
   return (
-    <WagmiProvider config={config}>
-      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+    <WagmiProvider config={wagmiAdapter.wagmiConfig as Config}>
+      <QueryClientProvider client={queryClient}>
+        {children}
+      </QueryClientProvider>
     </WagmiProvider>
   );
 }
