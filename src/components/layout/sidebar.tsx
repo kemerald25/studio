@@ -18,6 +18,7 @@ import {
   SidebarMenuItem,
   SidebarMenuButton,
   SidebarFooter,
+  useSidebar,
 } from '@/components/ui/sidebar';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
@@ -28,6 +29,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { shortenAddress } from '@/lib/utils';
 import { useAccount } from 'wagmi';
 import { ConnectWalletButton } from '../connect-wallet-button';
+import { cn } from '@/lib/utils';
 
 const navItems = [
   { href: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
@@ -44,16 +46,17 @@ export default function AppSidebar() {
   const pathname = usePathname();
   const avatar = PlaceHolderImages.find((img) => img.id === 'avatar1');
   const { address, isConnected } = useAccount();
+  const { state } = useSidebar();
 
   return (
     <Sidebar>
-      <SidebarHeader className="p-4">
+      <SidebarHeader>
         <Link href="/dashboard" className="flex items-center gap-2">
           <Logo className="w-8 h-8 text-primary" />
-          <span className="font-headline text-2xl font-bold text-white">ChainGuardian</span>
+          <span className={cn("font-headline text-2xl font-bold text-white", state === 'collapsed' && 'hidden')}>ChainGuardian</span>
         </Link>
       </SidebarHeader>
-      <SidebarContent className="p-4">
+      <SidebarContent>
         <SidebarMenu>
           {navItems.map((item) => (
             <SidebarMenuItem key={item.href}>
@@ -61,10 +64,11 @@ export default function AppSidebar() {
                 asChild
                 isActive={pathname === item.href}
                 className="font-body"
+                tooltip={state === 'collapsed' ? { children: item.label, side: 'right', align: 'center'} : undefined}
               >
                 <Link href={item.href}>
                   <item.icon />
-                  <span>{item.label}</span>
+                  <span className={cn(state === 'collapsed' && 'hidden')}>{item.label}</span>
                 </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
@@ -72,20 +76,20 @@ export default function AppSidebar() {
         </SidebarMenu>
       </SidebarContent>
       <Separator className="my-2" />
-      <SidebarFooter className="p-4">
+      <SidebarFooter className={cn(state === 'collapsed' ? 'items-center' : '')}>
         {isConnected && address ? (
           <div className="flex items-center gap-3 p-2">
             <Avatar className="h-8 w-8">
               {avatar && <AvatarImage src={avatar.imageUrl} alt="Player Avatar" />}
               <AvatarFallback>AV</AvatarFallback>
             </Avatar>
-            <div className="flex-1 overflow-hidden">
+            <div className={cn("flex-1 overflow-hidden", state === 'collapsed' && 'hidden')}>
                 <p className="font-bold text-sm text-white truncate">{shortenAddress(address)}</p>
                 <p className="text-xs text-slate-400">Level 1</p>
             </div>
           </div>
         ) : (
-          <div className="text-center text-xs text-slate-400 p-2">
+          <div className={cn("text-center text-xs text-slate-400 p-2", state === 'collapsed' && 'hidden')}>
              <ConnectWalletButton />
           </div>
         )}
