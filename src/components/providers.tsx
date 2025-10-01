@@ -5,7 +5,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { createAppKit } from '@reown/appkit';
 import { base } from '@reown/appkit/networks';
 import { type ReactNode, useEffect, useState } from 'react';
-import { WagmiProvider, type State } from 'wagmi';
+import { WagmiProvider } from 'wagmi';
 
 const queryClient = new QueryClient();
 
@@ -36,8 +36,10 @@ export function AppProviders({
                 networks: [base],
                 defaultNetwork: base,
                 metadata: metadata,
+                enableEIP6963: true,
                 features: {
                     analytics: true,
+                    socials: ['google', 'x', 'discord', 'github', 'apple']
                 },
                 themeMode: 'dark',
                 themeVariables: {
