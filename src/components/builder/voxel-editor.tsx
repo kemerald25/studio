@@ -1,9 +1,11 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef, useCallback } from 'react';
+import { toPng } from 'html-to-image';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
-import { Eraser, Pen } from 'lucide-react';
+import { Eraser, Pen, Download } from 'lucide-react';
+import { useBuildStore } from '@/lib/build-store';
 
 const GRID_SIZE = 24;
 const colors = [
@@ -21,6 +23,8 @@ export function VoxelEditor() {
   const [grid, setGrid] = useState(() => Array(GRID_SIZE * GRID_SIZE).fill(colors[0]));
   const [selectedColor, setSelectedColor] = useState(colors[1]);
   const [isErasing, setIsErasing] = useState(false);
+  const addBuild = useBuildStore((state) => state.addBuild);
+  const gridRef = useRef<HTMLDivElement>(null);
 
   const handleCellClick = (index: number) => {
     const newGrid = [...grid];
@@ -32,9 +36,37 @@ export function VoxelEditor() {
     setGrid(Array(GRID_SIZE * GRID_SIZE).fill(colors[0]));
   };
 
+  const handleSaveBuild = useCallback(async () => {
+    if (gridRef.current === null) {
+      return;
+    }
+
+    try {
+      const dataUrl = await toPng(gridRef.current, { cacheBust: true, backgroundColor: '#0A0E27' });
+      
+      // Trigger download
+      const link = document.createElement('a');
+      link.download = 'chainguardian-build.png';
+      link.href = dataUrl;
+      link.click();
+
+      // Add to dashboard store
+      addBuild({
+        id: Date.now().toString(),
+        imageUrl: dataUrl,
+        createdAt: new Date(),
+      });
+
+    } catch (err) {
+      console.error('Failed to save build', err);
+    }
+  }, [gridRef, addBuild]);
+
+
   return (
     <div className="flex flex-col md:flex-row gap-8">
       <div 
+        ref={gridRef}
         className="grid touch-none"
         style={{
           gridTemplateColumns: `repeat(${GRID_SIZE}, 1fr)`,
@@ -89,8 +121,8 @@ export function VoxelEditor() {
         <Button variant="destructive" onClick={handleClearGrid} className="w-full">
           Clear Grid
         </Button>
-        <Button className="w-full font-headline shadow-neon-blue">
-          Save Build
+        <Button onClick={handleSaveBuild} className="w-full font-headline shadow-neon-blue">
+          <Download className="mr-2" /> Save Build
         </Button>
       </div>
     </div>

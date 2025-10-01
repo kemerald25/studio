@@ -12,8 +12,16 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import Image from 'next/image';
-import { ScrollText, Users, Store, FlaskConical, Swords, Package } from 'lucide-react';
+import { ScrollText, Users, Store, FlaskConical, Swords, Package, Building } from 'lucide-react';
 import { useAccount } from 'wagmi';
+import { useBuildStore } from '@/lib/build-store';
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel"
 
 const avatar = PlaceHolderImages.find((img) => img.id === 'avatar1');
 
@@ -57,6 +65,7 @@ export default function DashboardPage() {
                 </div>
             </Card>
           )}
+          <MyBuildsWidget />
           <CrewWidget />
         </div>
 
@@ -112,6 +121,50 @@ function PlayerCard({ player, xpForNextLevel }: { player: any, xpForNextLevel: n
     </Card>
   );
 }
+
+function MyBuildsWidget() {
+  const builds = useBuildStore((state) => state.builds);
+
+  return (
+    <Card className="glassmorphism">
+      <CardHeader>
+        <CardTitle className="font-headline text-white flex items-center gap-2">
+          <Building className="text-secondary" />
+          My Builds
+        </CardTitle>
+      </CardHeader>
+      <CardContent>
+        {builds.length > 0 ? (
+          <Carousel className="w-full max-w-xs mx-auto">
+            <CarouselContent>
+              {builds.map((build) => (
+                <CarouselItem key={build.id}>
+                  <Image
+                    src={build.imageUrl}
+                    alt="User build"
+                    width={500}
+                    height={500}
+                    className="rounded-lg border-2 border-secondary/50"
+                  />
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious />
+            <CarouselNext />
+          </Carousel>
+        ) : (
+          <>
+            <p className="text-slate-300 mb-4 text-center">You have not saved any builds yet.</p>
+            <Button variant="outline" className="w-full" asChild>
+              <Link href="/build">Go to Build Mode</Link>
+            </Button>
+          </>
+        )}
+      </CardContent>
+    </Card>
+  );
+}
+
 
 function CrewWidget() {
   return (
