@@ -24,7 +24,7 @@ const metadata = {
 const config = createConfig({
   chains: networks,
   transports: networks.reduce((acc, chain) => {
-    acc[chain.id] = http(chain.rpcUrl);
+    acc[chain.id] = http(chain.rpcUrls.default.http[0]);
     return acc;
   }, {} as Record<number, ReturnType<typeof http>>),
   storage: createStorage({
