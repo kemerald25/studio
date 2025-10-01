@@ -1,20 +1,16 @@
-import { cookieStorage, createStorage, createConfig } from 'wagmi';
-import { base } from '@reown/appkit/networks';
+import { http } from 'wagmi';
+import { base } from 'wagmi/chains';
 
 // Get projectId from https://dashboard.reown.com
-export const projectId = process.env.NEXT_PUBLIC_PROJECT_ID;
+export const projectId = '00518e8a7327cbd81efb2663ffecfad3';
 
 if (!projectId) {
   throw new Error('Project ID is not defined');
 }
 
-export const networks = [base];
+const baseWithRpc = {
+  ...base,
+  rpcUrl: `https://mainnet.base.org`,
+};
 
-//Set up the Wagmi Adapter (Config)
-export const config = createConfig({
-  storage: createStorage({
-    storage: cookieStorage,
-  }),
-  ssr: true,
-  chains: networks,
-});
+export const networks = [baseWithRpc];
