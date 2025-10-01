@@ -34,7 +34,6 @@ const customTheme = merge(darkTheme(), {
     accentColorForeground: 'hsl(var(--primary-foreground))',
     modalBackground: 'hsl(var(--background))',
     modalText: 'hsl(var(--foreground))',
-    actionButtonText: 'hsl(var(--primary-foreground))',
   },
   radii: {
     actionButton: 'var(--radius)',
