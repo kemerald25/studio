@@ -4,7 +4,7 @@ import { projectId, networks } from '@/config/reown';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { createAppKit } from '@reown/appkit';
 import { type ReactNode, useEffect, useState } from 'react';
-import { WagmiProvider, createConfig, cookieStorage, createStorage } from 'wagmi';
+import { WagmiProvider, createConfig, cookieStorage, createStorage, http } from 'wagmi';
 import { WagmiAdapter } from '@reown/appkit-adapter-wagmi';
 
 const queryClient = new QueryClient();
@@ -24,9 +24,9 @@ const metadata = {
 const config = createConfig({
   chains: networks,
   transports: networks.reduce((acc, chain) => {
-    acc[chain.id] = { http: (chain as any).rpcUrl };
+    acc[chain.id] = http(chain.rpcUrl);
     return acc;
-  }, {} as Record<number, { http: string }>),
+  }, {} as Record<number, ReturnType<typeof http>>),
   storage: createStorage({
     storage: cookieStorage,
   }),
