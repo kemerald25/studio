@@ -41,6 +41,8 @@ const navItems = [
 export default function AppSidebar() {
   const pathname = usePathname();
   const avatar = PlaceHolderImages.find((img) => img.id === 'avatar1');
+  const username = 'Adventurer';
+  const isConnected = false;
 
   return (
     <Sidebar>
@@ -70,22 +72,28 @@ export default function AppSidebar() {
       </SidebarContent>
       <Separator className="my-2" />
       <SidebarFooter className="p-4">
-        <Button variant="ghost" className="w-full justify-start gap-2 p-2">
-            {avatar && (
-              <Image
-                src={avatar.imageUrl}
-                alt="Player Avatar"
-                width={32}
-                height={32}
-                className="rounded-full border-2 border-primary"
-                data-ai-hint={avatar.imageHint}
-              />
-            )}
-            <div className="text-left">
-                <p className="font-bold text-sm text-white">CyberVoxel</p>
-                <p className="text-xs text-slate-400">Level 5</p>
-            </div>
-        </Button>
+        {isConnected ? (
+          <Button variant="ghost" className="w-full justify-start gap-2 p-2 h-auto">
+              {avatar && (
+                <Image
+                  src={avatar.imageUrl}
+                  alt="Player Avatar"
+                  width={32}
+                  height={32}
+                  className="rounded-full border-2 border-primary"
+                  data-ai-hint={avatar.imageHint}
+                />
+              )}
+              <div className="text-left">
+                  <p className="font-bold text-sm text-white">{username}</p>
+                  <p className="text-xs text-slate-400">Level 1</p>
+              </div>
+          </Button>
+        ) : (
+          <div className="text-center text-xs text-slate-400 p-2">
+            Connect your wallet to begin your adventure.
+          </div>
+        )}
       </SidebarFooter>
     </Sidebar>
   );

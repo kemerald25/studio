@@ -6,14 +6,7 @@ import { Card } from '@/components/ui/card';
 import { Package } from 'lucide-react';
 import Image from 'next/image';
 
-const items = [
-  { id: 1, name: 'Cyber Hoodie', category: 'avatar', rarity: 3, equipped: true, image: 'https://picsum.photos/seed/item1/200/200', hint: 'cyberpunk clothing' },
-  { id: 2, name: 'Voxel Blade', category: 'weapon', rarity: 4, equipped: false, image: 'https://picsum.photos/seed/item2/200/200', hint: 'voxel sword' },
-  { id: 3, name: 'Holo-Pet', category: 'pet', rarity: 5, equipped: true, image: 'https://picsum.photos/seed/item3/200/200', hint: 'hologram animal' },
-  { id: 4, name: 'Data-Spike', category: 'tool', rarity: 2, equipped: false, image: 'https://picsum.photos/seed/item4/200/200', hint: 'futuristic tool' },
-  { id: 5, name: 'Neon Boots', category: 'avatar', rarity: 3, equipped: false, image: 'https://picsum.photos/seed/item5/200/200', hint: 'glowing shoes' },
-  { id: 6, name: 'Glitch Emote', category: 'emote', rarity: 1, equipped: false, image: 'https://picsum.photos/seed/item6/200/200', hint: 'digital animation' },
-];
+const items: any[] = []; // Empty items array
 
 const rarityConfig: { [key: number]: { color: string, shadow: string, name: string } } = {
   1: { color: 'border-slate-500', shadow: '', name: 'Common' },
@@ -70,7 +63,7 @@ export default function InventoryPage() {
   );
 }
 
-function ItemCard({ item }: { item: typeof items[0] }) {
+function ItemCard({ item }: { item: any }) {
   const config = rarityConfig[item.rarity];
   return (
     <Card
