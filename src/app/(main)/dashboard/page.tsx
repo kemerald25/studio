@@ -1,5 +1,4 @@
 'use client';
-import React from 'react';
 import {
   Card,
   CardContent,
@@ -13,10 +12,14 @@ import Link from 'next/link';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import Image from 'next/image';
 import { ScrollText, Users, Store, FlaskConical, Swords, Package } from 'lucide-react';
+import React from 'react';
+import { useAccount } from 'wagmi';
 
 const avatar = PlaceHolderImages.find((img) => img.id === 'avatar1');
 
 export default function DashboardPage() {
+  const { isConnected } = useAccount();
+
   const player = {
     username: 'Adventurer',
     level: 1,
@@ -38,7 +41,16 @@ export default function DashboardPage() {
 
       <div className="grid lg:grid-cols-3 gap-8">
         <div className="space-y-8">
-          <PlayerCard player={player} xpForNextLevel={xpForNextLevel} />
+          {isConnected ? (
+            <PlayerCard player={player} xpForNextLevel={xpForNextLevel} />
+          ) : (
+             <Card className="glassmorphism flex items-center justify-center p-8 text-center">
+                <div>
+                    <h3 className="font-headline text-xl text-white mb-2">Connect Your Wallet</h3>
+                    <p className="text-slate-400">Connect your wallet to see your player stats and start your adventure.</p>
+                </div>
+            </Card>
+          )}
           <CrewWidget />
         </div>
 

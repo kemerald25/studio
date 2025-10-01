@@ -26,6 +26,9 @@ import { Separator } from '../ui/separator';
 import { Button } from '../ui/button';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import Image from 'next/image';
+import { useAccount } from 'wagmi';
+import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
+import { ConnectButton } from '@rainbow-me/rainbowkit';
 
 const navItems = [
   { href: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
@@ -41,8 +44,7 @@ const navItems = [
 export default function AppSidebar() {
   const pathname = usePathname();
   const avatar = PlaceHolderImages.find((img) => img.id === 'avatar1');
-  const username = 'Adventurer';
-  const isConnected = false;
+  const { address, isConnected } = useAccount();
 
   return (
     <Sidebar>
@@ -73,26 +75,27 @@ export default function AppSidebar() {
       <Separator className="my-2" />
       <SidebarFooter className="p-4">
         {isConnected ? (
-          <Button variant="ghost" className="w-full justify-start gap-2 p-2 h-auto">
-              {avatar && (
-                <Image
-                  src={avatar.imageUrl}
-                  alt="Player Avatar"
-                  width={32}
-                  height={32}
-                  className="rounded-full border-2 border-primary"
-                  data-ai-hint={avatar.imageHint}
-                />
-              )}
-              <div className="text-left">
-                  <p className="font-bold text-sm text-white">{username}</p>
-                  <p className="text-xs text-slate-400">Level 1</p>
-              </div>
-          </Button>
-        ) : (
-          <div className="text-center text-xs text-slate-400 p-2">
-            Connect your wallet to begin your adventure.
+          <div className="flex items-center gap-3 p-2">
+            <Avatar className="h-8 w-8">
+              {avatar && <AvatarImage src={avatar.imageUrl} alt="Player Avatar" />}
+              <AvatarFallback>AV</AvatarFallback>
+            </Avatar>
+            <div className="flex-1 overflow-hidden">
+                <p className="font-bold text-sm text-white truncate">{address}</p>
+                <p className="text-xs text-slate-400">Level 1</p>
+            </div>
           </div>
+        ) : (
+          <ConnectButton.Custom>
+            {({ openConnectModal, mounted }) => {
+              if (!mounted) return null;
+              return (
+                <div className="text-center text-xs text-slate-400 p-2">
+                  <Button variant="link" onClick={openConnectModal} className="p-0 h-auto text-secondary">Connect your wallet</Button> to begin your adventure.
+                </div>
+              )
+            }}
+          </ConnectButton.Custom>
         )}
       </SidebarFooter>
     </Sidebar>

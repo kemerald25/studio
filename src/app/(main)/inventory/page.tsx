@@ -37,9 +37,9 @@ export default function InventoryPage() {
             key={category}
             onClick={() => setFilter(category)}
             variant={filter === category ? 'default' : 'outline'}
-            className={`font-headline ${filter === category ? 'shadow-neon-blue' : ''}`}
+            className={`font-headline capitalize ${filter === category ? 'shadow-neon-blue' : ''}`}
           >
-            {category.toUpperCase()}
+            {category}
           </Button>
         ))}
       </div>
