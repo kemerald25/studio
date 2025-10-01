@@ -23,12 +23,11 @@ import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { Logo } from '../icons/logo';
 import { Separator } from '../ui/separator';
-import { Button } from '../ui/button';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { shortenAddress } from '@/lib/utils';
 import { useAccount } from 'wagmi';
-import { useWeb3Modal } from '@reown/appkit/react';
+import { ConnectWalletButton } from '../connect-wallet-button';
 
 const navItems = [
   { href: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
@@ -45,7 +44,6 @@ export default function AppSidebar() {
   const pathname = usePathname();
   const avatar = PlaceHolderImages.find((img) => img.id === 'avatar1');
   const { address, isConnected } = useAccount();
-  const { open } = useWeb3Modal();
 
   return (
     <Sidebar>
@@ -88,8 +86,7 @@ export default function AppSidebar() {
           </div>
         ) : (
           <div className="text-center text-xs text-slate-400 p-2">
-             <Button variant="link" onClick={() => open()} className="p-0 h-auto text-secondary">Connect your wallet</Button>
-            {' '}to begin your adventure.
+             <ConnectWalletButton />
           </div>
         )}
       </SidebarFooter>
