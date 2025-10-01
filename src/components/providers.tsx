@@ -1,11 +1,13 @@
 'use client';
 
-import {config, projectId} from '@/config/reown';
-import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
-import {createAppKit} from '@reown/appkit';
-import {base} from '@reown/appkit/networks';
-import type {ReactNode} from 'react';
-import {cookieToInitialState, WagmiProvider, type Config} from 'wagmi';
+import { config, projectId } from '@/config/reown';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { createAppKit } from '@reown/appkit';
+import { base } from '@reown/appkit/networks';
+import type { ReactNode } from 'react';
+import { WagmiProvider } from 'wagmi';
+import {type State} from 'wagmi/ssr'
+
 
 const queryClient = new QueryClient();
 
@@ -39,15 +41,14 @@ createAppKit({
 
 export function AppProviders({
   children,
-  cookies,
+  initialState,
 }: {
   children: ReactNode;
-  cookies: string | null;
+  initialState?: State;
 }) {
-  const initialState = cookieToInitialState(config as Config, cookies);
 
   return (
-    <WagmiProvider config={config as Config} initialState={initialState}>
+    <WagmiProvider config={config} initialState={initialState}>
       <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
     </WagmiProvider>
   );
