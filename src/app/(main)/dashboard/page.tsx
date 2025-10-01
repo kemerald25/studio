@@ -1,4 +1,5 @@
 'use client';
+import React from 'react';
 import {
   Card,
   CardContent,
@@ -12,7 +13,6 @@ import Link from 'next/link';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import Image from 'next/image';
 import { ScrollText, Users, Store, FlaskConical, Swords, Package } from 'lucide-react';
-import React from 'react';
 import { useAccount } from 'wagmi';
 
 const avatar = PlaceHolderImages.find((img) => img.id === 'avatar1');
@@ -20,31 +20,37 @@ const avatar = PlaceHolderImages.find((img) => img.id === 'avatar1');
 export default function DashboardPage() {
   const { isConnected } = useAccount();
 
-  const player = {
-    username: 'Adventurer',
+  const player = isConnected ? {
+    username: 'Adventurer', // This could come from user profile later
     level: 1,
     xp: 0,
     trustScore: 0,
-    isTestnet: true,
-  };
+    isTestnet: true, // This could be derived from network state
+  } : null;
 
   const xpForNextLevel = 100;
 
   return (
     <div className="container mx-auto">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
-        <h1 className="font-headline text-3xl md:text-4xl font-bold text-white">
-          Welcome back, <span className="text-secondary">{player.username}</span>
-        </h1>
-        <NetworkBadge isTestnet={player.isTestnet} />
+        {player ? (
+            <h1 className="font-headline text-3xl md:text-4xl font-bold text-white">
+            Welcome back, <span className="text-secondary">{player.username}</span>
+            </h1>
+        ) : (
+             <h1 className="font-headline text-3xl md:text-4xl font-bold text-white">
+                Dashboard
+             </h1>
+        )}
+        {player && <NetworkBadge isTestnet={player.isTestnet} />}
       </div>
 
       <div className="grid lg:grid-cols-3 gap-8">
         <div className="space-y-8">
-          {isConnected ? (
+          {isConnected && player ? (
             <PlayerCard player={player} xpForNextLevel={xpForNextLevel} />
           ) : (
-             <Card className="glassmorphism flex items-center justify-center p-8 text-center">
+             <Card className="glassmorphism flex items-center justify-center p-8 text-center min-h-[240px]">
                 <div>
                     <h3 className="font-headline text-xl text-white mb-2">Connect Your Wallet</h3>
                     <p className="text-slate-400">Connect your wallet to see your player stats and start your adventure.</p>

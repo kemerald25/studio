@@ -25,9 +25,9 @@ import { Logo } from '../icons/logo';
 import { Separator } from '../ui/separator';
 import { Button } from '../ui/button';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
-import Image from 'next/image';
-import { useAccount } from 'wagmi';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
+import { shortenAddress } from '@/lib/utils';
+import { useAccount } from 'wagmi';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 
 const navItems = [
@@ -74,28 +74,31 @@ export default function AppSidebar() {
       </SidebarContent>
       <Separator className="my-2" />
       <SidebarFooter className="p-4">
-        {isConnected ? (
+        {isConnected && address ? (
           <div className="flex items-center gap-3 p-2">
             <Avatar className="h-8 w-8">
               {avatar && <AvatarImage src={avatar.imageUrl} alt="Player Avatar" />}
               <AvatarFallback>AV</AvatarFallback>
             </Avatar>
             <div className="flex-1 overflow-hidden">
-                <p className="font-bold text-sm text-white truncate">{address}</p>
+                <p className="font-bold text-sm text-white truncate">{shortenAddress(address)}</p>
                 <p className="text-xs text-slate-400">Level 1</p>
             </div>
           </div>
         ) : (
-          <ConnectButton.Custom>
-            {({ openConnectModal, mounted }) => {
-              if (!mounted) return null;
-              return (
-                <div className="text-center text-xs text-slate-400 p-2">
-                  <Button variant="link" onClick={openConnectModal} className="p-0 h-auto text-secondary">Connect your wallet</Button> to begin your adventure.
-                </div>
-              )
-            }}
-          </ConnectButton.Custom>
+          <div className="text-center text-xs text-slate-400 p-2">
+             <ConnectButton.Custom>
+              {({ openConnectModal, mounted }) => {
+                if (!mounted) {
+                  return null;
+                }
+                return (
+                  <Button variant="link" onClick={openConnectModal} className="p-0 h-auto text-secondary">Connect your wallet</Button>
+                );
+              }}
+            </ConnectButton.Custom>
+            {' '}to begin your adventure.
+          </div>
         )}
       </SidebarFooter>
     </Sidebar>
