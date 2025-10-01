@@ -1,3 +1,4 @@
+
 'use client';
 import React from 'react';
 import {
@@ -22,6 +23,9 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel"
+import { quests } from '@/lib/quests';
+import { useCrewStore } from '@/lib/crew-store';
+import { crews } from '@/lib/crews';
 
 const avatar = PlaceHolderImages.find((img) => img.id === 'avatar1');
 
@@ -167,18 +171,55 @@ function MyBuildsWidget() {
 
 
 function CrewWidget() {
+    const { joinedCrewId } = useCrewStore();
+    const joinedCrew = crews.find(c => c.id === joinedCrewId);
+
+    if (!joinedCrew) {
+        return (
+            <Card className="glassmorphism">
+                <CardHeader>
+                    <CardTitle className="font-headline text-white flex items-center gap-2">
+                    <Users className="text-secondary" />
+                    Crew
+                    </CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <p className="text-slate-300 mb-4">You are not part of a crew yet.</p>
+                    <Button variant="outline" className="w-full" asChild>
+                    <Link href="/crew">Find a Crew</Link>
+                    </Button>
+                </CardContent>
+            </Card>
+        );
+    }
+  
   return (
     <Card className="glassmorphism">
       <CardHeader>
         <CardTitle className="font-headline text-white flex items-center gap-2">
           <Users className="text-secondary" />
-          Crew
+          My Crew
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <p className="text-slate-300 mb-4">You are not part of a crew yet.</p>
-        <Button variant="outline" className="w-full" asChild>
-          <Link href="/crew">Find a Crew</Link>
+        <div className="flex items-center gap-4">
+            {joinedCrew.emblem && (
+                <Image 
+                    src={joinedCrew.emblem.imageUrl}
+                    alt={`${joinedCrew.name} emblem`}
+                    width={40}
+                    height={40}
+                    data-ai-hint={joinedCrew.emblem.imageHint}
+                    className="rounded-lg bg-primary/10 p-1"
+                />
+            )}
+            <div>
+                <h3 className="font-headline text-lg text-white">{joinedCrew.name}</h3>
+                <p className="text-sm text-slate-400">{joinedCrew.motto}</p>
+            </div>
+        </div>
+        <Button variant="outline" className="w-full mt-4" asChild>
+          <Link href="/crew">View Crew</Link>
         </Button>
       </CardContent>
     </Card>
@@ -186,6 +227,8 @@ function CrewWidget() {
 }
 
 function QuestLog() {
+    const activeQuests = quests.slice(0, 2); // Show first 2 quests as active
+
     return (
         <Card className="glassmorphism">
             <CardHeader>
@@ -195,11 +238,27 @@ function QuestLog() {
                 </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-                <div className="text-center text-slate-400 py-8">
-                  <p>No active quests.</p>
-                  <p className="text-sm">Visit the quest board to find new adventures!</p>
-                </div>
-                 <Button variant="secondary" className="w-full" asChild>
+                {activeQuests.length > 0 ? (
+                    <div className="space-y-4">
+                        {activeQuests.map(quest => (
+                            <div key={quest.id} className="flex items-center justify-between p-3 rounded-lg bg-card/70">
+                                <div>
+                                    <h4 className="font-bold text-white">{quest.title}</h4>
+                                    <p className="text-sm text-slate-400">{quest.description.split('.')[0]}.</p>
+                                </div>
+                                <Button variant="ghost" size="sm" asChild>
+                                    <Link href={quest.href}>View</Link>
+                                </Button>
+                            </div>
+                        ))}
+                    </div>
+                ) : (
+                    <div className="text-center text-slate-400 py-8">
+                      <p>No active quests.</p>
+                      <p className="text-sm">Visit the quest board to find new adventures!</p>
+                    </div>
+                )}
+                 <Button variant="secondary" className="w-full font-headline" asChild>
                     <Link href="/quests">View All Quests</Link>
                  </Button>
             </CardContent>
@@ -230,3 +289,5 @@ function ActionCard({ title, icon, description, href }: { title: string, icon: R
     </Link>
   )
 }
+
+    

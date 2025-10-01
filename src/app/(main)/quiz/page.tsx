@@ -1,11 +1,17 @@
+
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Book, CheckCircle, XCircle } from 'lucide-react';
+import { useQuestStore } from '@/lib/quest-store';
+import { useToast } from '@/hooks/use-toast';
+import Confetti from 'react-confetti';
+import { useWindowSize } from 'react-use';
+
 
 const quizQuestions = [
   {
@@ -36,6 +42,12 @@ export default function QuizPage() {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
   const [showResult, setShowResult] = useState(false);
+  const { questStates, completeQuest } = useQuestStore();
+  const { toast } = useToast();
+  const [showConfetti, setShowConfetti] = useState(false);
+  const { width, height } = useWindowSize();
+
+  const securityQuestId = 2; // "First Steps into Security" quest
 
   const currentQuestion = quizQuestions[currentQuestionIndex];
   const isCorrect = selectedAnswer === currentQuestion.correctAnswer;
@@ -43,7 +55,21 @@ export default function QuizPage() {
   const handleNext = () => {
     setShowResult(false);
     setSelectedAnswer(null);
-    setCurrentQuestionIndex((prev) => (prev + 1) % quizQuestions.length);
+
+    if (currentQuestionIndex < quizQuestions.length - 1) {
+        setCurrentQuestionIndex((prev) => prev + 1);
+    } else {
+        // Quiz finished
+        if (questStates[securityQuestId] === 'in_progress') {
+            completeQuest(securityQuestId);
+            setShowConfetti(true);
+            toast({
+                title: "Quest Completed!",
+                description: "You've aced the Security Quiz and earned your rewards!",
+                className: "bg-success/20 border-success text-white"
+            });
+        }
+    }
   };
   
   const handleSubmit = () => {
@@ -51,6 +77,29 @@ export default function QuizPage() {
         setShowResult(true);
     }
   }
+  
+  const allQuestionsAnswered = currentQuestionIndex === quizQuestions.length -1 && showResult;
+  const isQuizComplete = questStates[securityQuestId] === 'completed';
+
+  if (isQuizComplete) {
+      return (
+          <div className="container mx-auto text-center">
+              {showConfetti && <Confetti width={width} height={height} recycle={false} />}
+              <div className="flex items-center gap-4 mb-8 justify-center">
+                  <Book className="w-10 h-10 text-secondary" />
+                  <div>
+                      <h1 className="text-4xl font-headline font-bold text-white">Security Quiz</h1>
+                  </div>
+              </div>
+              <Card className="glassmorphism max-w-2xl mx-auto p-8">
+                  <CheckCircle className="w-16 h-16 text-success mx-auto mb-4" />
+                  <h2 className="text-2xl font-headline text-white mb-2">Quiz Complete!</h2>
+                  <p className="text-slate-300">You've already proven your knowledge. Great job staying sharp!</p>
+              </Card>
+          </div>
+      )
+  }
+
 
   return (
     <div className="container mx-auto">
@@ -92,7 +141,9 @@ export default function QuizPage() {
             </Card>
           ) : null}
           {showResult ? (
-            <Button onClick={handleNext} className="w-full">Next Question</Button>
+            <Button onClick={handleNext} className="w-full">
+                {allQuestionsAnswered ? 'Finish Quiz' : 'Next Question'}
+            </Button>
           ) : (
             <Button onClick={handleSubmit} disabled={!selectedAnswer} className="w-full">Submit</Button>
           )}
@@ -101,3 +152,5 @@ export default function QuizPage() {
     </div>
   );
 }
+
+    

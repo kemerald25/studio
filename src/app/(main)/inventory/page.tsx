@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState } from 'react';
@@ -5,8 +6,73 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Package } from 'lucide-react';
 import Image from 'next/image';
+import { PlaceHolderImages } from '@/lib/placeholder-images';
 
-const items: any[] = []; // Empty items array
+const itemPlaceholders = {
+  sword: PlaceHolderImages.find((i) => i.id === 'itemSword'),
+  shield: PlaceHolderImages.find((i) => i.id === 'itemShield'),
+  potion: PlaceHolderImages.find((i) => i.id === 'itemPotion'),
+  pet: PlaceHolderImages.find((i) => i.id === 'itemPet'),
+  emote: PlaceHolderImages.find((i) => i.id === 'itemEmote'),
+  avatarSkin: PlaceHolderImages.find((i) => i.id === 'itemAvatarSkin'),
+};
+
+const items = [
+  {
+    id: 1,
+    name: 'Sword of Truth',
+    category: 'weapon',
+    rarity: 4,
+    equipped: true,
+    image: itemPlaceholders.sword?.imageUrl,
+    hint: itemPlaceholders.sword?.imageHint,
+  },
+  {
+    id: 2,
+    name: 'Guardian Shield',
+    category: 'weapon',
+    rarity: 5,
+    equipped: false,
+    image: itemPlaceholders.shield?.imageUrl,
+    hint: itemPlaceholders.shield?.imageHint,
+  },
+  {
+    id: 3,
+    name: 'Potion of Clarity',
+    category: 'tool',
+    rarity: 2,
+    equipped: false,
+    image: itemPlaceholders.potion?.imageUrl,
+    hint: itemPlaceholders.potion?.imageHint,
+  },
+  {
+    id: 4,
+    name: 'Crypto-Kitty Companion',
+    category: 'pet',
+    rarity: 3,
+    equipped: true,
+    image: itemPlaceholders.pet?.imageUrl,
+    hint: itemPlaceholders.pet?.imageHint,
+  },
+  {
+    id: 5,
+    name: 'HODL Emote',
+    category: 'emote',
+    rarity: 1,
+    equipped: false,
+    image: itemPlaceholders.emote?.imageUrl,
+    hint: itemPlaceholders.emote?.imageHint,
+  },
+  {
+    id: 6,
+    name: 'Cyberspace Samurai',
+    category: 'avatar',
+    rarity: 5,
+    equipped: true,
+    image: itemPlaceholders.avatarSkin?.imageUrl,
+    hint: itemPlaceholders.avatarSkin?.imageHint,
+  },
+];
 
 const rarityConfig: { [key: number]: { color: string, shadow: string, name: string } } = {
   1: { color: 'border-slate-500', shadow: '', name: 'Common' },
@@ -75,14 +141,16 @@ function ItemCard({ item }: { item: any }) {
         </div>
       )}
       <div className="aspect-square bg-base-bg/50 rounded-md mb-3 flex items-center justify-center overflow-hidden">
-        <Image
-          src={item.image}
-          alt={item.name}
-          width={200}
-          height={200}
-          data-ai-hint={item.hint}
-          className="w-full h-full object-cover pixelated group-hover:scale-110 transition-transform duration-300"
-        />
+        {item.image && (
+          <Image
+            src={item.image}
+            alt={item.name}
+            width={200}
+            height={200}
+            data-ai-hint={item.hint}
+            className="w-full h-full object-cover pixelated group-hover:scale-110 transition-transform duration-300"
+          />
+        )}
       </div>
       <h3 className="font-headline text-base text-white truncate">{item.name}</h3>
       <div className="flex items-center justify-between text-xs text-slate-400 mt-1">

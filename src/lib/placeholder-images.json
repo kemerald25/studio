@@ -5,6 +5,66 @@
       "description": "A voxel-style character avatar with a futuristic look.",
       "imageUrl": "https://images.unsplash.com/photo-1618243329711-359c196ffb38?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHx2b3hlbCUyMGNoYXJhY3RlcnxlbnwwfHx8fDE3NTkzMjUwMTR8MA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "voxel character"
+    },
+    {
+      "id": "crewIcon1",
+      "description": "A shield emblem with a diamond.",
+      "imageUrl": "https://images.unsplash.com/photo-1753857791386-5a37ca2a9b11?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxzaGllbGQlMjBkaWFtb25kfGVufDB8fHx8MTc1OTMzNDU3M3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "shield diamond"
+    },
+    {
+      "id": "crewIcon2",
+      "description": "Crossed pixelated swords emblem.",
+      "imageUrl": "https://images.unsplash.com/photo-1676099748858-6d4c18fa7c88?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxwaXhlbCUyMHN3b3Jkc3xlbnwwfHx8fDE3NTkzMzQ1NzR8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "pixel swords"
+    },
+    {
+      "id": "crewIcon3",
+      "description": "A lightning bolt emblem.",
+      "imageUrl": "https://images.unsplash.com/photo-1696351808576-e882b848b93e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxsaWdodG5pbmclMjBib2x0fGVufDB8fHx8MTc1OTMwMDUwMHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "lightning bolt"
+    },
+    {
+      "id": "crewIcon4",
+      "description": "An emblem with a code bracket and a shield.",
+      "imageUrl": "https://images.unsplash.com/photo-1585842630457-1c278ee4cf53?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxjb2RlJTIwc2hpZWxkfGVufDB8fHx8MTc1OTMzNDU3M3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "code shield"
+    },
+    {
+      "id": "itemSword",
+      "description": "A glowing pixelated sword.",
+      "imageUrl": "https://images.unsplash.com/photo-1617973803733-10d475bb7fe3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxwaXhlbCUyMHN3b3JkfGVufDB8fHx8MTc1OTMzNDU3M3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "pixel sword"
+    },
+    {
+      "id": "itemShield",
+      "description": "A glowing pixelated shield.",
+      "imageUrl": "https://images.unsplash.com/photo-1722691694088-b3b2ab29be31?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxwaXhlbCUyMHNoaWVsZHxlbnwwfHx8fDE3NTkzMzQ1NzN8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "pixel shield"
+    },
+    {
+      "id": "itemPotion",
+      "description": "A bubbling pixelated potion.",
+      "imageUrl": "https://images.unsplash.com/photo-1603101026718-a79462af712a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxwaXhlbCUyMHBvdGlvbnxlbnwwfHx8fDE3NTkzMzQ1NzN8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "pixel potion"
+    },
+    {
+      "id": "itemPet",
+      "description": "A small pixelated crypto creature.",
+      "imageUrl": "https://images.unsplash.com/photo-1723129092506-5cd0cd84decd?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxwaXhlbCUyMGNyZWF0dXJlfGVufDB8fHx8MTc1OTMzNDU3NHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "pixel creature"
+    },
+    {
+      "id": "itemEmote",
+      "description": "A pixelated emote icon.",
+      "imageUrl": "https://images.unsplash.com/photo-1628011636812-eb8acf17e7b0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8cGl4ZWwlMjBpY29ufGVufDB8fHx8MTc1OTMzNDU3M3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "pixel icon"
+    },
+    {
+      "id": "itemAvatarSkin",
+      "description": "A futuristic pixelated avatar skin.",
+      "imageUrl": "https://images.unsplash.com/photo-1640582024795-9208f2f0e177?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxwaXhlbCUyMGF2YXRhcnxlbnwwfHx8fDE3NTkzMzQ1NzN8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "pixel avatar"
     }
   ]
 }

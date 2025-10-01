@@ -1,7 +1,11 @@
+
+'use client';
+
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { Dices, Palette, ShieldCheck } from 'lucide-react';
+import { Dices, Palette, ShieldCheck, PlayCircle } from 'lucide-react';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 
 export default function Home() {
   return (
@@ -28,9 +32,22 @@ export default function Home() {
             <Button asChild size="lg" className="font-headline shadow-neon-blue hover:shadow-neon-cyan transition-all duration-300">
               <Link href="/dashboard">START ADVENTURE</Link>
             </Button>
-            <Button asChild size="lg" variant="outline" className="font-headline border-secondary hover:border-primary transition-all duration-300">
-              <Link href="#">WATCH TRAILER</Link>
-            </Button>
+            <Dialog>
+                <DialogTrigger asChild>
+                    <Button size="lg" variant="outline" className="font-headline border-secondary hover:border-primary transition-all duration-300">
+                      <PlayCircle className="mr-2" />
+                      WATCH TRAILER
+                    </Button>
+                </DialogTrigger>
+                <DialogContent className="max-w-4xl p-0 border-primary shadow-neon-blue bg-black">
+                    <DialogHeader className="p-4">
+                        <DialogTitle className="text-white font-headline">ChainGuardian Official Trailer</DialogTitle>
+                    </DialogHeader>
+                    <div className="aspect-video bg-black flex items-center justify-center">
+                        <p className="text-slate-400">Trailer coming soon...</p>
+                    </div>
+                </DialogContent>
+            </Dialog>
           </div>
         </div>
 
