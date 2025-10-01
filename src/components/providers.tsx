@@ -17,7 +17,7 @@ if (!projectId) {
 const metadata = {
   name: 'ChainGuardian',
   description: 'The ultimate crypto adventure where your wallet powers your journey.',
-  url: typeof window !== 'undefined' ? window.location.origin : 'https://chainguardian.app',
+  url: 'https://6000-firebase-studio-1759324113885.cluster-fbfjltn375c6wqxlhoehbz44sk.cloudworkstations.dev',
   icons: ['https://avatars.githubusercontent.com/u/179229932'],
 };
 
