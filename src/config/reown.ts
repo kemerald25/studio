@@ -1,5 +1,4 @@
-import { cookieStorage, createStorage } from 'wagmi';
-import { createConfig } from '@reown/appkit';
+import { cookieStorage, createStorage, createConfig } from 'wagmi';
 import { base } from '@reown/appkit/networks';
 
 // Get projectId from https://dashboard.reown.com
@@ -17,6 +16,5 @@ export const config = createConfig({
     storage: cookieStorage,
   }),
   ssr: true,
-  projectId,
   chains: networks,
 });
