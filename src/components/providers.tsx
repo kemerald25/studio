@@ -33,6 +33,7 @@ const config = createConfig({
   ssr: true,
 });
 
+
 if (typeof window !== 'undefined') {
   const wagmiAdapter = new WagmiAdapter(config);
 
